@@ -1,0 +1,10 @@
+1. Instalar MQTT e desenvolver aplicações publish / subscribe
+OK
+
+2. Instrumentar apps pub/sub para medir tempos
+OK
+
+3. Caracterizar os tempos de publish e subscribe do MQTT em função do tamanho da mensagem; resultados da experiência no portátil
+
+4. Instalar o MQTT no traffic.fe.up.pt incluindo certificados de acesso e verificar funcionamento das aplicações de teste
+
