@@ -1,16 +1,17 @@
 import paho.mqtt.client as mqtt
+import paho.mqtt.publish as publish
 import time
-message = 'ON'
+import sys
+
 payload = "0123456789"
 
 def on_connect(mosq, obj, rc):
     print("rc: " + str(rc))
 
 def on_publish(mosq, obj, mid):
-    global count
-    f.write(str(count) + " publ " + str(time.time()) + '\n')
-    print("on publish " + str(time.time()))
-    print("mid: " + str(mid) + '\n')
+    f1.write(str(mid) + " publ " + str(time.time()) + '\n')
+    #f1.write(str(time.time()) + '\n')
+    print(str(mid) + " on publish " + str(time.time()))
 
 def on_log(mosq, obj, level, string):
     print(string)
@@ -19,22 +20,32 @@ mqttc = mqtt.Client()
 # Assign event callbacks
 mqttc.on_connect = on_connect
 mqttc.on_publish = on_publish
-# Connect
-mqttc.connect("localhost", 1883,60)
+#mqttc.on_log = on_log
 
-f = open('pubtimes.txt', 'w')
-start_time = time.time()
-count = 0
+mqttc.connect("localhost", 1883,60) # Connect
+mqttc.loop_start()  # Start thread to process network traffic
+
+
+f1 = open('pubtimes.txt', 'w')
+f2 = open('senttimes.txt', 'w')
+
 for j in range(5):      #for each j payload increases tenfold
     for i in range(100):
-        f.write(str(count) + " sent " + str(time.time()) + '\n')
-        mqttc.publish("topic", payload)        
-        print("sent at " + str(time.time()) + '\n')
         print(int(len(payload)))
-        count+=1
+        
+        #f2.write(str(time.time()) + '\n')
+        msgInfo=mqttc.publish("topic", payload, qos=1)
+        f2.write(str(msgInfo.mid) + " sent " + str(time.time()) + '\n')
+        #print(msgInfo.is_published())
+        print(str(msgInfo.mid) + " sent at " + str(time.time()))
+        #print(msgInfo.mid)
+        #msgInfo.wait_for_publish()
     payload = payload*10
 
-
+mqttc.loop_stop()   # Stop network thread previously created
+f1.close()
+f2.close()
 
 # Continue the network loop
 #mqttc.loop_forever()
+#mqttc.loop_start()
