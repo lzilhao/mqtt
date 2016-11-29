@@ -9,8 +9,8 @@ def on_connect(mosq, obj, rc):
     print("rc: " + str(rc))
 
 def on_publish(mosq, obj, mid):
-    f1.write(str(mid) + " publ " + str(time.time()) + '\n')
-    #f1.write(str(time.time()) + '\n')
+    #f1.write(str(mid) + " publ " + str(time.time()) + '\n')
+    f1.write(str(time.time()) + '\n')
     print(str(mid) + " on publish " + str(time.time()))
 
 def on_log(mosq, obj, level, string):
@@ -31,11 +31,9 @@ f2 = open('senttimes.txt', 'w')
 
 for j in range(5):      #for each j payload increases tenfold
     for i in range(100):
-        print(int(len(payload)))
-        
-        #f2.write(str(time.time()) + '\n')
         msgInfo=mqttc.publish("topic", payload, qos=1)
-        f2.write(str(msgInfo.mid) + " sent " + str(time.time()) + '\n')
+        #f2.write(str(msgInfo.mid) + " sent " + str(time.time()) + '\n')
+        f2.write(str(time.time()) + '\n')
         #print(msgInfo.is_published())
         print(str(msgInfo.mid) + " sent at " + str(time.time()))
         #print(msgInfo.mid)
