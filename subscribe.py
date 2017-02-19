@@ -12,7 +12,7 @@ def on_connect(client, userdata, flags, rc):
 
 def on_message(client, userdata, msg):
     #print(str(msg.payload))
-    f1.write(str(client) + " " + str(msg.payload) + str(time.time()) + '\n')
+    f1.write(str(time.time()) + '\n')
 
 
 def on_subscribe(client, userdate, mid, granted_qos):
@@ -21,21 +21,21 @@ def on_subscribe(client, userdate, mid, granted_qos):
 # The callback for when a PUBLISH message is received from the server.
 
 f1 = open('subtimes.txt', 'w+')
-'''i=0
+i=0
 j=0
-f1 = open('subtimes', 'w+')
 
 iterations = int(input("measure time after how many iterations? "))
 def on_message(client, userdata, msg):
-    f1.write(str(client) + " " + str(msg.payload) + str(time.time()) + '\n')
+    f1.write(str(time.time()) + '\n')
     global i, j, start_time
     if i==0:
         start_time = time.time()
     i+=1
-    print(str(i)+" "+msg.topic+" "+str(msg.payload))
+    #print(str(i)+" "+msg.topic+" "+str(msg.payload))
+    print(str(time.time()))
     if i==iterations:
         print(time.time() - start_time)
-        sys.exit()'''
+        sys.exit()
 
 
 

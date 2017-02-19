@@ -3,6 +3,7 @@ import paho.mqtt.publish as publish
 import time
 import sys
 
+
 payload = "0123456789"
 
 def on_connect(mosq, obj, rc):
@@ -22,20 +23,23 @@ mqttc.on_connect = on_connect
 mqttc.on_publish = on_publish
 #mqttc.on_log = on_log
 
-mqttc.connect("localhost", 1883,60) # Connect
+mqttc.connect("localhost", 1883, 60) # Connect
 mqttc.loop_start()  # Start thread to process network traffic
 
 
 f1 = open('pubtimes.txt', 'w')
 f2 = open('senttimes.txt', 'w')
 
-for j in range(5):      #for each j payload increases tenfold
+for j in range(6):      #for each j payload increases tenfold
     for i in range(100):
         msgInfo=mqttc.publish("topic", payload, qos=1)
         #f2.write(str(msgInfo.mid) + " sent " + str(time.time()) + '\n')
         f2.write(str(time.time()) + '\n')
+        #f1.write(str(time.time()) + '\n')
         #print(msgInfo.is_published())
-        print(str(msgInfo.mid) + " sent at " + str(time.time()))
+        #print(str(msgInfo.mid) + " sent at " + str(time.time()))
+        print(str(time.time()))
+        time.sleep(0.01)
         #print(msgInfo.mid)
         #msgInfo.wait_for_publish()
     payload = payload*10
